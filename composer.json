@@ -12,7 +12,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Zakharov\\Yii2SeleniumTools\\": "Src/"
+            "Zakharov\\Yii2SeleniumTools\\": "Src/",
+            "Zakharov\\Yii2SeleniumTools\\Tests\\": "Tests/"
         }
     },
     "authors": [

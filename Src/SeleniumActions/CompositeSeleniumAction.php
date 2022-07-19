@@ -36,7 +36,7 @@ class CompositeSeleniumAction extends BaseSeleniumAction
     public function runMiddlewares()
     {
         $middleWareAction = Yii::createObject([
-            'class' => CompositeSeleniumAction::class,
+            'class' => self::class,
             'actions' => $this->middleWares,
             'driver' => $this->driver,
             'waiter' => $this->waiter,

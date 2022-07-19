@@ -29,17 +29,22 @@ abstract class BaseSeleniumAction extends BaseObject implements SeleniumActionIn
     final public function run(): bool
     {
         $this->beforeAction();
-        $this->action();
+        $actionResult = $this->action();
         $this->afterAction();
-        return true;
+        return $actionResult;
     }
 
+    /**
+     * Runs before main action
+     *
+     * @return void
+     */
     protected function beforeAction()
     {
         if (!$this->waiter && $this->driver) {
             $this->waiter = $this->buildWaiter($this->driver);
         }
-        if (Yii::$app->params['SCREENSHOTS']) {
+        if (env('SCREENSHOTS', false)) {
             $this->takeScreenshot();
         }
         if ($this->title !== self::BASE_ACTION_TITLE) {
@@ -47,6 +52,11 @@ abstract class BaseSeleniumAction extends BaseObject implements SeleniumActionIn
         }
     }
 
+    /**
+     * takeScreenshot
+     *
+     * @return string
+     */
     public function takeScreenshot()
     {
         $count =  Yii::$app->currentSite->counter++;
