@@ -1,0 +1,39 @@
+{
+    "name": "pazakharov/yii2-selenium-tools",
+    "description": "Usefull tools for using with selenium automation",
+    "keywords": [
+        "yii2",
+        "selenium",
+        "automation",
+        "webdriver",
+        "bots"
+    ],
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Zakharov\\Yii2SeleniumTools\\": "Src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Pavel Zakharov",
+            "email": "pavelz@internet.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.4",
+        "yiisoft/yii2": "^2.0",
+        "yiithings/yii2-dotenv": "^1.0",
+        "sapistudio/seleniumstealth": "^1.0",
+        "ramsey/uuid": "^4.2",
+        "php-webdriver/webdriver": "dev-main"
+    },
+    "require-dev": {
+        "codeception/codeception": "^4.2",
+        "codeception/module-yii2": "^1.0",
+        "codeception/module-asserts": "^1.0",
+        "codeception/module-phpbrowser": "^1.0.0"
+    }
+}
