@@ -59,10 +59,12 @@ abstract class BaseSeleniumAction extends BaseObject implements SeleniumActionIn
      */
     public function takeScreenshot()
     {
-        $count =  Yii::$app->currentSite->counter++;
-        $session =  Yii::$app->currentSite->chromeSession;
-        $name =  $count . '.png';
-        $path = Yii::getAlias("@app/runtime/screenshots/$session");
+        $module = Yii::$app->getModule('seleniumTools');
+        $screenshotPath = $module->screenshotPath;
+        $count =  $module->screenShotCounter;
+        $session =  $this->driver->getSessionID();
+        $name =  "{$count}.png";
+        $path = FileHelper::normalizePath(Yii::getAlias("$screenshotPath/$session"));
         FileHelper::createDirectory($path);
         $fileName = $path . DIRECTORY_SEPARATOR . $name;
         $this->driver->takeScreenshot($fileName);

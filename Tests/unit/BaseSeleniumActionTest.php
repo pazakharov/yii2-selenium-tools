@@ -7,7 +7,9 @@ use Codeception\Lib\ParamsLoader;
 use Facebook\WebDriver\Chrome\ChromeDriver;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
+use yii\helpers\FileHelper;
 use Zakharov\Yii2SeleniumTools\Tests\Moks\SeleniumAction;
+use Zakharov\Yii2SeleniumTools\Tests\Moks\ScreenshotSeleniumAction;
 
 class BaseSeleniumActionTest extends \Codeception\Test\Unit
 {
@@ -19,6 +21,17 @@ class BaseSeleniumActionTest extends \Codeception\Test\Unit
 
     protected function _before()
     {
+        $this->tester->mockApplication([
+            'aliases' => [
+                '@app' => \yii\helpers\FileHelper::normalizePath(__DIR__ . '/../../'),
+            ],
+            'modules' => [
+                'seleniumTools' => [
+                    'class' => \Zakharov\Yii2SeleniumTools\SeleniumToolsModule::class,
+                    'screenshotPath' => codecept_data_dir('screenshots'),
+                ]
+            ]
+        ]);
         $load = new ParamsLoader();
         $load->load('.env');
         $chromeBinaryPath = env('CHROME_BINARY_PATH');
@@ -30,7 +43,7 @@ class BaseSeleniumActionTest extends \Codeception\Test\Unit
             ->addArguments(['--mute-audio'])
             ->addArguments(['--disable-dev-shm-usage'])
             ->setBinary($chromeBinaryPath);
-        // $chromeOptions->addArguments(['--headless']);
+        $chromeOptions->addArguments(['--headless']);
         $desiredCapabilities = DesiredCapabilities::chrome();
         $desiredCapabilities->setCapability(ChromeOptions::CAPABILITY, $chromeOptions);
         $this->driver = ChromeDriver::start($desiredCapabilities);
@@ -49,5 +62,23 @@ class BaseSeleniumActionTest extends \Codeception\Test\Unit
             'driver' => $this->driver
         ]);
         $result = $action->run();
+        $this->assertTrue($result);
+    }
+
+    public function testActionCanTakeScreenshots()
+    {
+        $action = Yii::createObject([
+            'class' => ScreenshotSeleniumAction::class,
+            'driver' => $this->driver
+        ]);
+        $result = $action->run();
+        $this->assertTrue($result);
+
+        $this->assertTrue(file_exists($action->file));
+        try {
+            FileHelper::removeDirectory(codecept_data_dir('screenshots'));
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

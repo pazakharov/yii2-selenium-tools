@@ -6,6 +6,14 @@ paths:
     support: tests/_support
     envs: tests/_envs
 actor_suffix: Tester
+coverage:
+    enabled: true
+    include:
+        - Src/*
+modules:
+    config:
+        Yii2:
+            configFile: "Tests/config.php"
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
