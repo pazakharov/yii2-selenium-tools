@@ -21,10 +21,34 @@ class SeleniumToolsModule extends Module
     private $screenShotCounter = 0;
 
     /**
-     * Get the value of screenShotCounter
+     * started_at time
+     *
+     * @var int
+     */
+    private $startedAt;
+
+    public function init()
+    {
+        $this->startedAt = time();
+    }
+
+    /**
+     * getScreenShotCounter
+     *
+     * @return int
      */
     public function getScreenShotCounter()
     {
         return $this->screenShotCounter++;
+    }
+
+    /**
+     * Get started_at time
+     *
+     * @return  int
+     */
+    public function getStartedAt()
+    {
+        return $this->startedAt;
     }
 }

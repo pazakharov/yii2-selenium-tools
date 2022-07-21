@@ -3,12 +3,13 @@
 namespace Zakharov\Yii2SeleniumTools\Tests\unit;
 
 use Yii;
+use yii\helpers\FileHelper;
 use Codeception\Lib\ParamsLoader;
 use Facebook\WebDriver\Chrome\ChromeDriver;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
-use yii\helpers\FileHelper;
 use Zakharov\Yii2SeleniumTools\Tests\Moks\SeleniumAction;
+use Zakharov\Yii2SeleniumTools\Tests\Moks\InfoSeleniumAction;
 use Zakharov\Yii2SeleniumTools\Tests\Moks\ScreenshotSeleniumAction;
 
 class BaseSeleniumActionTest extends \Codeception\Test\Unit
@@ -25,6 +26,7 @@ class BaseSeleniumActionTest extends \Codeception\Test\Unit
             'aliases' => [
                 '@app' => \yii\helpers\FileHelper::normalizePath(__DIR__ . '/../../'),
             ],
+            'bootstrap' => ['seleniumTools'],
             'modules' => [
                 'seleniumTools' => [
                     'class' => \Zakharov\Yii2SeleniumTools\SeleniumToolsModule::class,
@@ -80,5 +82,15 @@ class BaseSeleniumActionTest extends \Codeception\Test\Unit
         } catch (\Throwable $th) {
             throw $th;
         }
+    }
+
+    public function testActionCanCreateInfo()
+    {
+        $action = Yii::createObject([
+            'class' => InfoSeleniumAction::class,
+            'driver' => $this->driver
+        ]);
+        $result = $action->run();
+        $this->assertTrue($result);
     }
 }

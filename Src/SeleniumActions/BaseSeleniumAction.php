@@ -3,14 +3,16 @@
 namespace Zakharov\Yii2SeleniumTools\SeleniumActions;
 
 use Yii;
-use yii\base\BaseObject;
+use yii\base\Component;
 use yii\helpers\FileHelper;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverWait;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Zakharov\Yii2SeleniumTools\SeleniumToolsModule;
+use Zakharov\Yii2SeleniumTools\Events\SeleniumActionEvent;
 use Zakharov\Yii2SeleniumTools\Contracts\SeleniumActionInterface;
 
-abstract class BaseSeleniumAction extends BaseObject implements SeleniumActionInterface
+abstract class BaseSeleniumAction extends Component implements SeleniumActionInterface
 {
     public const WAIT_CONDITION_ELEMENT_SECONDS = 120;
     public const WAIT_CONDITION_PERIOD_MILLISECONDS = 500;
@@ -19,6 +21,12 @@ abstract class BaseSeleniumAction extends BaseObject implements SeleniumActionIn
     public const EVENT_AFTER_ACTION = 'afterAction';
 
     public const BASE_ACTION_TITLE = 'baseAction';
+    public const DEFAULT_LOG_CATEGORY = 'selenium';
+
+    /**
+     * @var SeleniumToolsModule
+     */
+    protected $module;
     /**
      * @var null|RemoteWebDriver
      */
@@ -35,11 +43,22 @@ abstract class BaseSeleniumAction extends BaseObject implements SeleniumActionIn
     }
 
     /**
+     * @inheritDoc
+     */
+    public function init()
+    {
+        $this->module = SeleniumToolsModule::getInstance();
+        if (is_null($this->module)) {
+            throw new \RuntimeException('You must bootstrap SeleniumToolsModule before use SeleniumAction');
+        }
+    }
+
+    /**
      * Runs before main action
      *
      * @return void
      */
-    protected function beforeAction()
+    final protected function beforeAction()
     {
         if (!$this->waiter && $this->driver) {
             $this->waiter = $this->buildWaiter($this->driver);
@@ -50,6 +69,12 @@ abstract class BaseSeleniumAction extends BaseObject implements SeleniumActionIn
         if ($this->title !== self::BASE_ACTION_TITLE) {
             $this->info("{$this->title}");
         }
+        $this->trigger(self::EVENT_BEFORE_ACTION, Yii::createObject(
+            [
+                'class' => SeleniumActionEvent::class,
+                'payload' => null
+            ]
+        ));
     }
 
     /**
@@ -59,9 +84,8 @@ abstract class BaseSeleniumAction extends BaseObject implements SeleniumActionIn
      */
     public function takeScreenshot()
     {
-        $module = Yii::$app->getModule('seleniumTools');
-        $screenshotPath = $module->screenshotPath;
-        $count =  $module->screenShotCounter;
+        $screenshotPath = $this->module->screenshotPath;
+        $count =  $this->module->screenShotCounter;
         $session =  $this->driver->getSessionID();
         $name =  "{$count}.png";
         $path = FileHelper::normalizePath(Yii::getAlias("$screenshotPath/$session"));
@@ -77,17 +101,27 @@ abstract class BaseSeleniumAction extends BaseObject implements SeleniumActionIn
      * @param  mixed $text
      * @return self
      */
-    public function info(string $text = '')
+    protected function info(string $text = '')
     {
-        $secondsFromBegin = time() - \Yii::$app->currentSite->started_at;
+        $secondsFromBegin = time() - $this->module->startedAt;
         $message = "$text ($secondsFromBegin sec.)";
-        \Yii::info($message, 'selenium');
-        echo $message . PHP_EOL;
-        return $this;
+        \Yii::info($message, $this->module->params['logCategory'] ?? self::DEFAULT_LOG_CATEGORY);
+        return $message;
     }
 
-    protected function afterAction()
+    /**
+     * afterAction
+     *
+     * @return void
+     */
+    final protected function afterAction()
     {
+        $this->trigger(self::EVENT_AFTER_ACTION, Yii::createObject(
+            [
+                'class' => SeleniumActionEvent::class,
+                'payload' => null
+            ]
+        ));
     }
 
     abstract protected function action(): bool;
