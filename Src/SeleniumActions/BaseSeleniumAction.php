@@ -8,6 +8,7 @@ use yii\helpers\FileHelper;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverWait;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
+use yii\base\InvalidConfigException;
 use Zakharov\Yii2SeleniumTools\SeleniumToolsModule;
 use Zakharov\Yii2SeleniumTools\Events\SeleniumActionEvent;
 use Zakharov\Yii2SeleniumTools\Contracts\SeleniumActionInterface;
@@ -60,7 +61,10 @@ abstract class BaseSeleniumAction extends Component implements SeleniumActionInt
      */
     final protected function beforeAction()
     {
-        if (!$this->waiter && $this->driver) {
+        if (!$this->driver instanceof WebDriver) {
+            throw new InvalidConfigException('webDriver must be an instance of WebDriver');
+        }
+        if (!$this->waiter instanceof WebDriverWait) {
             $this->waiter = $this->buildWaiter($this->driver);
         }
         if (env('SCREENSHOTS', false)) {

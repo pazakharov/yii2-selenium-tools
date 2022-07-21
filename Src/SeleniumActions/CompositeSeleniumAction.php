@@ -12,7 +12,13 @@ class CompositeSeleniumAction extends BaseSeleniumAction
     protected $actions = [];
     protected $middleWares = [];
 
-    protected function action(): bool
+    /**
+     * Action is final method of scenario
+     * In order to complete chain of actions use 'addAction' in init method of child class
+     *
+     * @return bool
+     */
+    final protected function action(): bool
     {
         if (empty($this->actions)) {
             return true;
@@ -33,7 +39,12 @@ class CompositeSeleniumAction extends BaseSeleniumAction
         return true;
     }
 
-    public function runMiddlewares()
+    /**
+     * runMiddlewares of the given action
+     *
+     * @return void
+     */
+    final protected function runMiddlewares()
     {
         $middleWareAction = Yii::createObject([
             'class' => self::class,
@@ -43,6 +54,7 @@ class CompositeSeleniumAction extends BaseSeleniumAction
         ]);
         $middleWareAction->run();
     }
+
     /**
      * @param mixed $action
      * @return self
@@ -81,6 +93,8 @@ class CompositeSeleniumAction extends BaseSeleniumAction
     }
 
     /**
+     * Set array of actions
+     *
      * @param array $actions
      * @return  self
      */
@@ -88,5 +102,13 @@ class CompositeSeleniumAction extends BaseSeleniumAction
     {
         $this->actions = $actions;
         return $this;
+    }
+
+    /**
+     * Get the value of actions
+     */
+    public function getActions()
+    {
+        return $this->actions;
     }
 }
