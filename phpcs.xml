@@ -5,9 +5,15 @@
         <exclude name="Generic.Files.LineEndings"/>
         <exclude name="PSR2.Methods.MethodDeclaration.Underscore"/>
     </rule>
+    <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
+        <exclude-pattern>*/Src/migrations/*</exclude-pattern>
+    </rule>
+    <rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
+        <exclude-pattern>*/Src/migrations/*</exclude-pattern>
+    </rule>
     <exclude-pattern>*/vendor/*</exclude-pattern>
-    <exclude-pattern>*/tests/_output/*</exclude-pattern>
-    <exclude-pattern>*/tests/_data/*</exclude-pattern>
-    <exclude-pattern>*/tests/_support/*</exclude-pattern>
+    <exclude-pattern>*/Tests/_output/*</exclude-pattern>
+    <exclude-pattern>*/Tests/_data/*</exclude-pattern>
+    <exclude-pattern>*/Tests/_support/*</exclude-pattern>
     <exclude-pattern>*\.(inc|css|js)</exclude-pattern>
 </ruleset>

@@ -21,18 +21,6 @@ class BaseUnitTest extends \Codeception\Test\Unit
 
     protected function _before()
     {
-        $this->tester->mockApplication([
-            'aliases' => [
-                '@app' => \yii\helpers\FileHelper::normalizePath(__DIR__ . '/../../'),
-            ],
-            'bootstrap' => ['seleniumTools'],
-            'modules' => [
-                'seleniumTools' => [
-                    'class' => \Zakharov\Yii2SeleniumTools\SeleniumToolsModule::class,
-                    'screenshotPath' => codecept_data_dir('screenshots'),
-                ]
-            ]
-        ]);
         $load = new ParamsLoader();
         $load->load('.env');
         $chromeBinaryPath = env('CHROME_BINARY_PATH');
@@ -43,8 +31,8 @@ class BaseUnitTest extends \Codeception\Test\Unit
             ->addArguments(['--disable-gpu'])
             ->addArguments(['--mute-audio'])
             ->addArguments(['--disable-dev-shm-usage'])
+            ->addArguments(['--headless'])
             ->setBinary($chromeBinaryPath);
-        $chromeOptions->addArguments(['--headless']);
         $desiredCapabilities = DesiredCapabilities::chrome();
         $desiredCapabilities->setCapability(ChromeOptions::CAPABILITY, $chromeOptions);
         $this->driver = ChromeDriver::start($desiredCapabilities);

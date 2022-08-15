@@ -6,19 +6,34 @@ use yii\base\Module;
 
 class SeleniumToolsModule extends Module
 {
+    public const DEFAULT_CHROME_BINARY = 'chrome';
+
     /**
      * screenshotPath
      *
      * @var string
      */
     public $screenshotPath = '@app/runtime/screenshots';
-
     /**
      * screenShotCounter
      *
      * @var int
      */
     private $screenShotCounter = 0;
+
+    /**
+     * defaultChromeBinary
+     *
+     * @var mixed
+     */
+    public $defaultChromeBinary;
+
+    /**
+     * defaultWebdriverBinary
+     *
+     * @var mixed
+     */
+    public $defaultWebdriverBinary;
 
     /**
      * started_at time
@@ -50,5 +65,25 @@ class SeleniumToolsModule extends Module
     public function getStartedAt()
     {
         return $this->startedAt;
+    }
+
+    /**
+     * getDefaultChromeBinary
+     *
+     * @return string
+     */
+    public function getDefaultChromeBinary()
+    {
+        return $this->defaultChromeBinary ?: self::DEFAULT_CHROME_BINARY;
+    }
+
+    /**
+     * getDefaultWebdriverBinary
+     *
+     * @return string
+     */
+    public function getDefaultWebdriverBinary()
+    {
+        return $this->defaultWebdriverBinary ?: self::DEFAULT_CHROME_BINARY;
     }
 }

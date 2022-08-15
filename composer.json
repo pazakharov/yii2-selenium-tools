@@ -22,10 +22,11 @@
             "email": "pavelz@internet.ru"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
         "php": ">=7.4",
-        "yiisoft/yii2": "^2.0",
+        "yidas/yii2-composer-bower-skip": "~2.0.13",
+        "yiisoft/yii2": "~2.0.45",
         "yiithings/yii2-dotenv": "^1.0",
         "sapistudio/seleniumstealth": "^1.0",
         "ramsey/uuid": "^4.2",
