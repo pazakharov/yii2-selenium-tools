@@ -12,4 +12,5 @@ modules:
     config:
         Yii2:
             configFile: "Tests/config/yii2.php"
+            applicationClass: "yii\\console\\Application"
     step_decorators: ~

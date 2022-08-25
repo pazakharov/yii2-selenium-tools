@@ -1,9 +1,6 @@
 <?php
 
-use yii\console\Application;
-
 return [
-    'class' => Application::class,
     'id' => 'testapp',
     'name' => 'testapp',
     'bootstrap' => ['seleniumTools'],
@@ -11,6 +8,8 @@ return [
     'vendorPath' => dirname(__DIR__) . '/../../vendor',
     'aliases' => [
         '@app' => \yii\helpers\FileHelper::normalizePath(__DIR__ . '/../../'),
+        '@src' => '@app/Src',
+        '@tests' => '@app/Tests',
     ],
     'components' => [
         'db' => [
@@ -28,7 +27,7 @@ return [
             'defaultChromeBinary' => env('CHROME_BINARY_PATH', null),
             'defaultWebdriverBinary' => env('CHROME_DRIVER_EXECUTABLE', null),
             'params' => [
-                'headless' => true,
+                'headless' => false,
                 'profilesDirectory' => '@app/Tests/_data/profiles',
                 'chromeDriverPortMin' => env('CHROME_DRIVER_PORT_MIN', null),
                 'chromeDriverPortMax' => env('CHROME_DRIVER_PORT_MAX', null),
@@ -38,5 +37,11 @@ return [
 
             ]
         ]
-    ]
+    ],
+    'controllerMap' => [
+        'migrate' => [
+            'class' => 'yii\console\controllers\MigrateController',
+            'migrationPath' => '@src/migrations',
+        ]
+    ],
 ];

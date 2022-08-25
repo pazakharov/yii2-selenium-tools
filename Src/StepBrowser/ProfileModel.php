@@ -24,6 +24,20 @@ class ProfileModel extends ActiveRecord
             [['user_agent'], 'string'],
             [['user_agent'], 'required'],
 
+            [['language'], 'string'],
+            [['language'], 'required'],
+
+            [['webgl_vendor'], 'string'],
+            [['webgl_vendor'], 'required'],
+
+            [['webgl_renderer'], 'string'],
+            [['webgl_renderer'], 'required'],
+
+            [['platform'], 'string'],
+            [['platform'], 'required'],
+
+            [['fix_hairline'], 'boolean'],
+
             [['proxy'], 'string'],
 
             [['window_size'], 'string'],

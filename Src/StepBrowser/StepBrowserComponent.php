@@ -89,7 +89,7 @@ class StepBrowserComponent extends Component
 
         $profile = Yii::createObject($config);
         if (!$profile->validate() || !$profile->save()) {
-            throw new InvalidConfigException(Json::encode($profile->errors()));
+            throw new InvalidConfigException(Json::encode($profile->errors));
         }
         return $profile;
     }
@@ -158,6 +158,10 @@ class StepBrowserComponent extends Component
         $chromeArguments = [];
         array_push($chromeArguments, "--window-size={$profile->window_size}");
         array_push($chromeArguments, "--user-agent={$profile->user_agent}");
+        array_push($chromeArguments, "--lang={$profile->language}");
+        array_push($chromeArguments, "--gpu-vendor-id={$profile->webgl_vendor}");
+        array_push($chromeArguments, "--renderer={$profile->webgl_vendor}");
+        array_push($chromeArguments, "--accept-lang={$profile->language}");
         if (!empty($profile->proxy)) {
             array_push($chromeArguments, "--proxy-server={$profile->proxy}");
         }
