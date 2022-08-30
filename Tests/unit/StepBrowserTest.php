@@ -30,7 +30,6 @@ class StepBrowserTest extends BaseUnitTest
     public function testCreateNewProfile()
     {
         $component = Yii::$container->get(StepBrowserComponent::class);
-        $component = Yii::$container->get(StepBrowserComponent::class);
         $profile = $component->createNewProfile(
             [
                 'title' => 'new profile',
