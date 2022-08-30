@@ -30,7 +30,7 @@
         "yiithings/yii2-dotenv": "^1.0",
         "sapistudio/seleniumstealth": "^1.0",
         "ramsey/uuid": "^4.2",
-        "php-webdriver/webdriver": "dev-main"
+        "php-webdriver/webdriver": "^1.12"
     },
     "require-dev": {
         "codeception/codeception": "^4.2",
