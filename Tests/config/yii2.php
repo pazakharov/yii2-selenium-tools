@@ -3,7 +3,7 @@
 return [
     'id' => 'testapp',
     'name' => 'testapp',
-    'bootstrap' => ['seleniumTools'],
+    'bootstrap' => ['seleniumTools', 'gii'],
     'basePath' => __DIR__ . '/../',
     'vendorPath' => dirname(__DIR__) . '/../../vendor',
     'aliases' => [
@@ -21,6 +21,7 @@ return [
         ]
     ],
     'modules' => [
+        'gii' =>  ['class' => 'yii\gii\Module'],
         'seleniumTools' => [
             'class' => \Zakharov\Yii2SeleniumTools\SeleniumToolsModule::class,
             'screenshotPath' => codecept_data_dir('screenshots'),
@@ -44,4 +45,5 @@ return [
             'migrationPath' => '@src/migrations',
         ]
     ],
+
 ];

@@ -2,12 +2,17 @@
 
 namespace Zakharov\Yii2SeleniumTools;
 
+use Yii;
 use yii\base\Module;
+use yii\base\BootstrapInterface;
+use Zakharov\Yii2SeleniumTools\Console\SeleniumToolsController;
+use Zakharov\Yii2SeleniumTools\Utils\UserAgent\UserAgentProvider;
+use Zakharov\Yii2SeleniumTools\Utils\UserAgent\UserAgentsDotIoParser;
 
-class SeleniumToolsModule extends Module
+class SeleniumToolsModule extends Module implements BootstrapInterface
 {
     public const DEFAULT_CHROME_BINARY = 'chrome';
-
+    public $controllerNamespace = 'Zakharov\Yii2SeleniumTools\Console';
     /**
      * screenshotPath
      *
@@ -36,15 +41,35 @@ class SeleniumToolsModule extends Module
     public $defaultWebdriverBinary;
 
     /**
+     * userAgentProvider config
+     *
+     * @var array
+     */
+    public $userAgentProvider = ['class' => UserAgentsDotIoParser::class];
+
+    /**
      * started_at time
      *
      * @var int
      */
     private $startedAt;
 
+    public function bootstrap($app)
+    {
+        $app->controllerMap[$this->id] = [
+            'class' => SeleniumToolsController::class,
+            'module' => $this,
+        ];
+    }
+
     public function init()
     {
         $this->startedAt = time();
+        Yii::$container->setSingleton(\Zakharov\Yii2SeleniumTools\Utils\UserAgent\UserAgentProvider::class, $this->userAgentProvider);
+        Yii::$container->setSingleton(\Spatie\Crawler\Crawler::class, \Spatie\Crawler\Crawler::class);
+        Yii::$container->setSingleton(\Spatie\Crawler\CrawlQueues\CrawlQueue::class, \Spatie\Crawler\CrawlQueues\ArrayCrawlQueue::class);
+        Yii::$container->setSingleton(\Spatie\Crawler\CrawlObservers\CrawlObserver::class, \Zakharov\Yii2SeleniumTools\Utils\UserAgent\BaseCrawlObserver::class);
+        Yii::$container->setSingleton(\Spatie\Crawler\CrawlProfiles\CrawlProfile::class, \Zakharov\Yii2SeleniumTools\Utils\UserAgent\UserAgentIoCrawlProfile::class);
     }
 
     /**
@@ -85,5 +110,15 @@ class SeleniumToolsModule extends Module
     public function getDefaultWebdriverBinary()
     {
         return $this->defaultWebdriverBinary ?: self::DEFAULT_CHROME_BINARY;
+    }
+
+    /**
+     * getUserAgentProvider instance
+     *
+     * @return UserAgentProvider
+     */
+    public function getUserAgentProvider()
+    {
+        return Yii::$container->get(UserAgentProvider::class);
     }
 }
