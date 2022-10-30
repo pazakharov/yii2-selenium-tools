@@ -2,7 +2,6 @@
 
 namespace Zakharov\Yii2SeleniumTools\Utils\UserAgent;
 
-use PDO;
 use Yii;
 use Zakharov\Yii2SeleniumTools\models\UserAgent;
 use Zakharov\Yii2SeleniumTools\Utils\UserAgent\UserAgentProvider;
@@ -41,6 +40,23 @@ class UserAgentService
             ->createCommand()
             ->batchInsert(UserAgent::tableName(), ['ua', 'created_at'], $updateArray)
             ->execute();
+    }
+
+    /**
+     * getUserAgent
+     *
+     * @param  string[] $keys
+     * @return UserAgent|null
+     */
+    public function getUserAgent(array $keys = []): ?UserAgent
+    {
+        $query = UserAgent::find();
+        foreach ($keys as $key) {
+            $query->andFilterWhere(['like', 'ua', $key]);
+        }
+        $userAgents = $query->limit(100)->all();
+        shuffle($userAgents);
+        return array_pop($userAgents);
     }
 
     /**

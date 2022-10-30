@@ -11,9 +11,11 @@
     <rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
         <exclude-pattern>*/Src/migrations/*</exclude-pattern>
     </rule>
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax">
+    </rule >
     <exclude-pattern>*/vendor/*</exclude-pattern>
     <exclude-pattern>*/Tests/_output/*</exclude-pattern>
-    <exclude-pattern>*/Tests/_data/*</exclude-pattern>
+    <exclude-pattern>*/Tests/_bootstrap.php</exclude-pattern>
     <exclude-pattern>*/Tests/_support/*</exclude-pattern>
     <exclude-pattern>*\.(inc|css|js)</exclude-pattern>
 </ruleset>

@@ -16,6 +16,7 @@ use Facebook\WebDriver\Chrome\ChromeDriverService;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Zakharov\Yii2SeleniumTools\SeleniumToolsModule;
 use Zakharov\Yii2SeleniumTools\StepBrowser\ProfileModel;
+use Zakharov\Yii2SeleniumTools\Utils\UserAgent\UserAgentService;
 
 /**
  * StepBrowser it is a simple chromium profiles manager.
@@ -199,13 +200,14 @@ class StepBrowserComponent extends Component
 
     /**
      * buildUserAgent
-     *
+     * @param array $keys Keys for find user agent strings in db
      * @return string
      */
-    protected function buildUserAgent()
+    protected function buildUserAgent(array $keys = [])
     {
-        //TODO: implement user agent generation
-        return 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36';
+        $service = $this->module->getUserAgentService();
+        $userAgent = $service->getUserAgent($keys);
+        return $userAgent->__toString();
     }
 
     /**

@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Module;
 use yii\base\BootstrapInterface;
 use Zakharov\Yii2SeleniumTools\Console\SeleniumToolsController;
+use Zakharov\Yii2SeleniumTools\Utils\UserAgent\UserAgentService;
 use Zakharov\Yii2SeleniumTools\Utils\UserAgent\UserAgentProvider;
 use Zakharov\Yii2SeleniumTools\Utils\UserAgent\UserAgentsDotIoParser;
 
@@ -65,6 +66,7 @@ class SeleniumToolsModule extends Module implements BootstrapInterface
     public function init()
     {
         $this->startedAt = time();
+        Yii::$container->setSingleton(\Zakharov\Yii2SeleniumTools\Utils\UserAgent\UserAgentService::class, \Zakharov\Yii2SeleniumTools\Utils\UserAgent\UserAgentService::class);
         Yii::$container->setSingleton(\Zakharov\Yii2SeleniumTools\Utils\UserAgent\UserAgentProvider::class, $this->userAgentProvider);
         Yii::$container->setSingleton(\Spatie\Crawler\Crawler::class, \Spatie\Crawler\Crawler::class);
         Yii::$container->setSingleton(\Spatie\Crawler\CrawlQueues\CrawlQueue::class, \Spatie\Crawler\CrawlQueues\ArrayCrawlQueue::class);
@@ -120,5 +122,15 @@ class SeleniumToolsModule extends Module implements BootstrapInterface
     public function getUserAgentProvider()
     {
         return Yii::$container->get(UserAgentProvider::class);
+    }
+
+    /**
+     * getUserAgentService
+     *
+     * @return UserAgentService
+     */
+    public function getUserAgentService()
+    {
+        return Yii::$container->get(UserAgentService::class);
     }
 }

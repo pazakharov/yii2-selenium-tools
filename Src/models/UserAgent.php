@@ -55,4 +55,9 @@ class UserAgent extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
         ];
     }
+
+    public function __toString()
+    {
+        return $this->ua;
+    }
 }
