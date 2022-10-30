@@ -20,12 +20,14 @@ class SeleniumToolsController extends Controller
     }
     /**
      * Fill the base with data for the StepBrowser profiles e.g: UserAgents
-     *
+     * You ca use params in your request for filter user agents:
+     * `php yii seleniumTools/fill-base chrome win`
+     * `php yii seleniumTools/fill-base chrome 102.0`
      * @return void
      */
-    public function actionFillBase()
+    public function actionFillBase(...$filterKeys)
     {
         $userAgentService = Yii::$container->get(UserAgentService::class);
-        $userAgentService->fillBaseWithUserAgents();
+        $userAgentService->fillBaseWithUserAgents($filterKeys);
     }
 }
