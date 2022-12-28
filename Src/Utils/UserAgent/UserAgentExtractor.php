@@ -6,7 +6,6 @@ use yii\helpers\StringHelper;
 
 class UserAgentExtractor
 {
-
     /**
      * extract user agents strings from tne html
      *

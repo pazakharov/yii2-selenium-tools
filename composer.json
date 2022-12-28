@@ -42,7 +42,8 @@
         "squizlabs/php_codesniffer": "3.*"
     },
     "scripts":{
-        "phpcs":"phpcs --standard=./phpcs.xml  ./"
+        "phpcs":"phpcs --standard=./phpcs.xml  ./",
+        "phpcbf":"phpcbf --standard=./phpcs.xml  ./"
     }
 
 }

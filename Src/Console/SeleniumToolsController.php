@@ -12,7 +12,6 @@ use Zakharov\Yii2SeleniumTools\Utils\UserAgent\UserAgentService;
  */
 class SeleniumToolsController extends Controller
 {
-
     public function actionIndex()
     {
         echo "Selenium Tools and features";

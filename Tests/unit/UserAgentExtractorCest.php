@@ -8,8 +8,6 @@ use Zakharov\Yii2SeleniumTools\Utils\UserAgent\UserAgentExtractor;
 
 class UserAgentExtractorCest
 {
-
-
     // tests
     public function testExtractUserAgentsFromHtml(UnitTester $I)
     {
