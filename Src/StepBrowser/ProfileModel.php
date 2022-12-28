@@ -5,6 +5,9 @@ namespace Zakharov\Yii2SeleniumTools\StepBrowser;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
+/**
+ * ProfileModel
+ */
 class ProfileModel extends ActiveRecord
 {
     public static function tableName()

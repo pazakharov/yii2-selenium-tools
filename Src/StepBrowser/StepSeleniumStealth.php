@@ -20,7 +20,7 @@ class StepSeleniumStealth extends SeleniumStealth
         $instance = new static(
             $driver,
             "",                             //'user_agent'
-            [],                             // 'languages'
+            [$profile->language],                             // 'languages'
             $profile->webgl_vendor,                  //'vendor'
             $profile->platform,                        //'platform'
             $profile->webgl_vendor,         //'webgl_vendor'
@@ -44,7 +44,7 @@ class StepSeleniumStealth extends SeleniumStealth
         $this->chrome_runtime();
         $this->iframe_content_window();
         $this->media_codecs();
-        //$this->navigator_languages();
+        $this->navigator_languages();
         $this->navigator_permissions();
         $this->navigator_plugins();
         // $this->navigator_vendor();

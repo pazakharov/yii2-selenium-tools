@@ -4,10 +4,6 @@ namespace Zakharov\Yii2SeleniumTools\Tests\unit;
 
 use Yii;
 use yii\helpers\FileHelper;
-use Codeception\Lib\ParamsLoader;
-use Facebook\WebDriver\Chrome\ChromeDriver;
-use Facebook\WebDriver\Chrome\ChromeOptions;
-use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Zakharov\Yii2SeleniumTools\Tests\unit\BaseUnitTest;
 use Zakharov\Yii2SeleniumTools\Tests\Moks\SeleniumAction;
 use Zakharov\Yii2SeleniumTools\Tests\Moks\InfoSeleniumAction;
