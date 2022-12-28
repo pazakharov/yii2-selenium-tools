@@ -53,6 +53,7 @@ class ProfileModel extends ActiveRecord
     }
 
     public function behaviors()
+
     {
         return [
             'timestamp' => [
