@@ -8,7 +8,6 @@ use Zakharov\Yii2SeleniumTools\Utils\UserAgent\UserAgentProvider;
 
 class UserAgentService
 {
-
     /**
      * userAgentProvider
      *
